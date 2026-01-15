@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useState, useEffect } from 'react'
+import { ReactNode, useState } from 'react'
 import { createAppKit } from '@reown/appkit/react'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import { mainnet, arbitrum, polygon, base, bsc, sepolia, arbitrumSepolia, polygonAmoy, baseSepolia, bscTestnet } from '@reown/appkit/networks'
@@ -15,15 +15,16 @@ if (!projectId) {
 
 const networks = [mainnet, arbitrum, polygon, base, bsc, sepolia, arbitrumSepolia, polygonAmoy, baseSepolia, bscTestnet]
 
-// Get the actual app URL dynamically
+// Get the app URL - use window.location.origin on client, or fall back to Vercel URL
 const getAppUrl = () => {
   if (typeof window !== 'undefined') {
     return window.location.origin
   }
-  // Fallback for SSR - use the configured app URL or Vercel URL
-  return process.env.NEXT_PUBLIC_APP_URL || 
-         process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : 
-         'https://orchids-polkastarter-projects.vercel.app'
+  // Fallback for SSR - Vercel provides NEXT_PUBLIC_VERCEL_URL automatically
+  if (process.env.NEXT_PUBLIC_VERCEL_URL) {
+    return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+  }
+  return process.env.NEXT_PUBLIC_APP_URL || 'https://3searchcapital.vercel.app'
 }
 
 const wagmiAdapter = new WagmiAdapter({
@@ -32,36 +33,23 @@ const wagmiAdapter = new WagmiAdapter({
   ssr: true
 })
 
-// Initialize AppKit only on client side to get correct URL
-let appKitInitialized = false
+// Initialize AppKit at module level (required for hooks to work during SSR)
+const appUrl = getAppUrl()
 
-function initializeAppKit() {
-  if (appKitInitialized || typeof window === 'undefined') return
-  
-  const appUrl = getAppUrl()
-  
-  createAppKit({
-    adapters: [wagmiAdapter],
-    networks,
-    projectId,
-    metadata: {
-      name: '3search',
-      description: 'Token Launch Platform',
-      url: appUrl,
-      icons: [`${appUrl}/favicon.ico`]
-    },
-    features: {
-      analytics: false // Disable analytics to avoid 403 errors from domain mismatch
-    }
-  })
-  
-  appKitInitialized = true
-}
-
-// Initialize immediately if on client
-if (typeof window !== 'undefined') {
-  initializeAppKit()
-}
+createAppKit({
+  adapters: [wagmiAdapter],
+  networks,
+  projectId,
+  metadata: {
+    name: '3Search Capital',
+    description: 'Token Launch Platform',
+    url: appUrl,
+    icons: [`${appUrl}/favicon.ico`]
+  },
+  features: {
+    analytics: false // Disable analytics to avoid 403 errors from domain mismatch
+  }
+})
 
 export function Web3Provider({ children }: { children: ReactNode }) {
   const [queryClient] = useState(() => {
@@ -74,11 +62,6 @@ export function Web3Provider({ children }: { children: ReactNode }) {
       },
     })
   })
-
-  // Ensure AppKit is initialized on client
-  useEffect(() => {
-    initializeAppKit()
-  }, [])
 
   return (
     <WagmiProvider config={wagmiAdapter.wagmiConfig}>
