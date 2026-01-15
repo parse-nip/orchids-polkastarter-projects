@@ -1,0 +1,65 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - img [ref=e8]
+        - generic [ref=e10]:
+          - heading "ClassPartPro" [level=1] [ref=e11]
+          - generic [ref=e13]: Active
+      - paragraph [ref=e17]: Ready
+    - generic [ref=e18]:
+      - generic [ref=e19] [cursor=pointer]:
+        - img [ref=e20]
+        - generic [ref=e22]: Upload PDF
+      - button "Start Recording" [ref=e24] [cursor=pointer]
+      - button "Enable Secret Mode" [ref=e25] [cursor=pointer]:
+        - img [ref=e26]
+  - generic [ref=e28]:
+    - generic [ref=e30]:
+      - generic [ref=e31]:
+        - generic [ref=e33]: Slides
+        - generic [ref=e35]:
+          - generic [ref=e36]: Sync
+          - button [ref=e37] [cursor=pointer]
+      - generic [ref=e40]:
+        - img [ref=e42]
+        - generic [ref=e44]:
+          - paragraph [ref=e45]: No Document Selected
+          - paragraph [ref=e46]: Upload your PDF slides to see them here while you record.
+    - generic [ref=e48]:
+      - generic [ref=e49]:
+        - generic [ref=e52]: Live Log
+        - generic [ref=e54]:
+          - img [ref=e55]
+          - paragraph [ref=e57]: Awaiting Audio
+      - generic [ref=e58]:
+        - generic [ref=e59]:
+          - generic [ref=e60]:
+            - button "Ask Question" [ref=e61] [cursor=pointer]
+            - button "Answer Teacher" [ref=e62] [cursor=pointer]
+          - generic [ref=e63]:
+            - generic [ref=e64]:
+              - generic [ref=e65]:
+                - generic [ref=e66]: Lookback
+                - generic [ref=e67]: 60s
+              - slider [ref=e68] [cursor=pointer]: "60"
+            - generic [ref=e69]:
+              - generic [ref=e70]: Type
+              - combobox [ref=e71]:
+                - option "Auto" [selected]
+                - option "Clarification"
+                - option "Follow-up"
+                - option "Challenge"
+                - option "Connection"
+          - button "Get ClassPart" [disabled] [ref=e72]:
+            - img [ref=e73]
+            - text: Get ClassPart
+        - generic [ref=e76]:
+          - img [ref=e78]
+          - generic [ref=e80]:
+            - paragraph [ref=e81]: Awaiting Lecture
+            - paragraph [ref=e82]: Your AI-generated questions will appear here.
+```
