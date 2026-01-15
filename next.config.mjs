@@ -19,6 +19,14 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  webpack: (config, { isServer }) => {
+    // Ignore optional Solana dependencies that aren't used
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      '@solana/kit': false,
+    };
+    return config;
+  },
   // Optimize package imports to significantly speed up compilation
   experimental: {
     optimizePackageImports: [
