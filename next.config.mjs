@@ -20,10 +20,15 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   webpack: (config, { isServer }) => {
-    // Ignore optional Solana dependencies that aren't used
+    // Ignore optional dependencies that aren't used
     config.resolve.fallback = {
       ...config.resolve.fallback,
       '@solana/kit': false,
+      '@coinbase/wallet-sdk': false,
+      '@gemini-wallet/core': false,
+      '@metamask/sdk': false,
+      'porto': false,
+      '@walletconnect/ethereum-provider': false,
     };
     return config;
   },
